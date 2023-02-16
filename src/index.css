@@ -1,0 +1,26 @@
+.contact {
+  border: 2px solid lightblue;
+  border-radius: 25px;
+  padding: 20px;
+  margin: 20px;
+}
+
+.contact-name {
+  font-weight: bold; 
+}
+
+.contact-email {
+  color: gray;
+}
+
+.contact-label {
+  padding: 20px;
+  margin: 20px;
+}
+
+.contact-input {
+  border-radius: 20px;
+  margin: 20px;
+  padding: 20px;
+  font-weight: bold;
+}
