@@ -3,6 +3,7 @@ import Contacts from "./ContactListData,";
 
 function SearchInput() {
   const [foundContacts, setFoundContacts] = useState(Contacts);
+  const [isPinnedContacts, setIsPinnedContacts] = useState(false);
 
   Contacts.sort(function (a, b) {
     if (a.name < b.name) {
@@ -13,6 +14,14 @@ function SearchInput() {
     }
     return 0;
   });
+
+  // function sortContactsByPinned () {
+  //   isPinnedContacts.sort(function(a,b) {
+  //     return b.isPinned - a.isPinned
+  //   }
+  //   )
+  //   console.log(Contacts) ;
+  // }
 
   const filter = (e) => {
     const keyword = e.target.value;
@@ -30,6 +39,16 @@ function SearchInput() {
     }
   };
 
+  function handlePinIcon(id) {
+    const updatedContacts = foundContacts.map((contact) => {
+      if (contact.id === id) {
+        return (contact.isPinned = !contact.isPinned);
+      }
+      return contact;
+    });
+    setFoundContacts(updatedContacts);
+  }
+
   return (
     <>
       <input
@@ -41,10 +60,17 @@ function SearchInput() {
 
       {foundContacts.length > 0 ? (
         foundContacts.map(({ id, name, email }) => (
-          <div key={id} className="contact">
+          <div
+            key={id}
+            className="contact"
+            style={{ background: isPinnedContacts ? "red" : "white" }}
+          >
             <p className="contact-name">{name}</p>
             <p className="contact-email">{email}</p>
-            <i className="fa-solid fa-thumbtack pin-icon"></i>
+            <i
+              className="fa-solid fa-thumbtack pin-icon"
+              onClick={() => handlePinIcon(id)}
+            ></i>
           </div>
         ))
       ) : (
