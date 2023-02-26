@@ -3,25 +3,6 @@ import Contacts from "./ContactListData,";
 
 function SearchInput() {
   const [foundContacts, setFoundContacts] = useState(Contacts);
-  const [isPinnedContacts, setIsPinnedContacts] = useState(false);
-
-  Contacts.sort(function (a, b) {
-    if (a.name < b.name) {
-      return -1;
-    }
-    if (a.name > b.name) {
-      return 1;
-    }
-    return 0;
-  });
-
-  // function sortContactsByPinned () {
-  //   isPinnedContacts.sort(function(a,b) {
-  //     return b.isPinned - a.isPinned
-  //   }
-  //   )
-  //   console.log(Contacts) ;
-  // }
 
   const filter = (e) => {
     const keyword = e.target.value;
@@ -42,12 +23,14 @@ function SearchInput() {
   function handlePinIcon(id) {
     const updatedContacts = foundContacts.map((contact) => {
       if (contact.id === id) {
-        return (contact.isPinned = !contact.isPinned);
+        contact.isPinned = !contact.isPinned;
       }
       return contact;
     });
     setFoundContacts(updatedContacts);
   }
+  
+  const sortedContacts = foundContacts.sort((a,b) => (b.name < a.name ? 1 : -1)).sort((a,b) => b.isPinned - a.isPinned);
 
   return (
     <>
@@ -58,12 +41,12 @@ function SearchInput() {
         placeholder="Contacts"
       />
 
-      {foundContacts.length > 0 ? (
-        foundContacts.map(({ id, name, email }) => (
+      {sortedContacts.length > 0 ? (
+        sortedContacts.map(({ id, name, email, isPinned }) => (
           <div
             key={id}
             className="contact"
-            style={{ background: isPinnedContacts ? "red" : "white" }}
+            style={{ background: isPinned ? "lightgray" : "white" }}
           >
             <p className="contact-name">{name}</p>
             <p className="contact-email">{email}</p>
@@ -74,7 +57,7 @@ function SearchInput() {
           </div>
         ))
       ) : (
-        <h1>NOT FOUND!</h1>
+        <h1>NOT found!</h1>
       )}
     </>
   );
